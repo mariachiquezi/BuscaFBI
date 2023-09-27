@@ -1,0 +1,4 @@
+flask-restplus
+Flask
+cx-Oracle
+requests
