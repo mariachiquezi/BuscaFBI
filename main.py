@@ -23,7 +23,7 @@ def buscar_criminoso_por_id(data, id):
 
 # Configuração da documentação Swagger
 api = Api(app, version='1.0', title='API Busca', description='API para acessar dados de criminosos')
-ns = api.namespace('Challenge idwall', description='Buscar criminosos')
+ns = api.namespace('FBI', description='Buscar criminosos')
 
 modelo_criminoso = api.model('Criminoso', {
     'id': fields.String(description='ID do criminoso'),
@@ -92,7 +92,6 @@ def atualizar_dados():
     data = obter_dados()
     connection = DB.conectar_banco()
     cursor = connection.cursor()
-    print("Conexao ok")
 
     for item in data.get("items", []):
         id = item.get('@id', 'ID não disponível')
