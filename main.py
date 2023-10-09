@@ -1,30 +1,13 @@
-import requests
-import json
-from flask import Flask
+from flask import Flask, app
 from flask_restplus import Api, Resource, fields
+from clients.oracle_connection import DB
+# from utils.config_swagger import swagger
+from utils.obter_dados import obter_dados
 
-from src.clients.oracle_connection import DB
 
 app = Flask(__name__)
-
-# Função para obter os dados
-def obter_dados():
-    response = requests.get('https://api.fbi.gov/wanted/v1/list')
-    response2 = requests.get('https://ws-public.interpol.int/notices/v1/red?resultPerPage=20&page=1')
-    return json.loads(response.content)
-
-# Função para buscar um criminoso por ID
-def buscar_criminoso_por_id(data, id):
-    for item in data.get("items", []):
-        id_formatado = item.get('@id').split("/")[-1]
-        if id_formatado == id:
-            return item
-    return None
-
-# Configuração da documentação Swagger
 api = Api(app, version='1.0', title='API Busca', description='API para acessar dados de criminosos')
 ns = api.namespace('FBI', description='Buscar criminosos')
-
 modelo_criminoso = api.model('Criminoso', {
     'id': fields.String(description='ID do criminoso'),
     'nome': fields.String(description='Nome do criminoso'),
